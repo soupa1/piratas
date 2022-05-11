@@ -7,6 +7,7 @@ var engine, world, ground;
 var backgroundImg;
 var tower, towerImg;
 var canhao, canhaoAng;
+var cannonBall;
 
 
 function preload() {
@@ -20,6 +21,7 @@ function setup() {
   engine = Engine.create();
   world = engine.world;
   
+  angleMode(DEGREES);
   canhaoAng = 20;
   canhao = new Canhao(180, 110, 130, 100, canhaoAng)
 
@@ -32,6 +34,8 @@ function setup() {
 
  tower = Bodies.rectangle(160, 350, 160, 310, options);
  World.add(world, tower);
+
+ cannonBall = new CannonBall(canhao.posX, canhao.posY);
  
 }
 
@@ -40,6 +44,7 @@ function draw() {
   image(backgroundImg, 0, 0, 1200, 600);
   
   canhao.display();
+  cannonBall.display();
   
   Engine.update(engine);
  
@@ -50,4 +55,11 @@ function draw() {
   image(towerImg,tower.position.x, tower.position.y, 160, 310);
   pop();
    
+}
+
+
+function keyReleased() {
+  if(keyCode === DOWN_ARROW) {
+    cannonBall.shoot();
+  }
 }
