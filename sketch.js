@@ -1,3 +1,25 @@
+//Revisão sobre Matrizes
+//Exemplos
+var matriz1 = [2,78,21,36,45];
+console.log(matriz1);
+
+var matriz2 = ["Melissa", 23, true, "Felipe", 15, false];
+//console.log(matriz2);
+
+var matriz3 = [matriz1, matriz2];
+//console.log(matriz3);
+
+//console.log(matriz1[3]);
+//console.log(matriz2[2]);
+//console.log(matriz3[1][4]);
+
+matriz1.push(1000);
+//console.log(matriz1);
+matriz1.pop();
+//console.log(matriz1);
+
+
+
 const Engine = Matter.Engine;
 const World = Matter.World;
 const Bodies = Matter.Bodies;
@@ -7,7 +29,8 @@ var engine, world, ground;
 var backgroundImg;
 var tower, towerImg;
 var canhao, canhaoAng;
-var cannonBall;
+var cannonBall
+var cannonBalls = [];
 
 
 function preload() {
@@ -35,7 +58,6 @@ function setup() {
  tower = Bodies.rectangle(160, 350, 160, 310, options);
  World.add(world, tower);
 
- cannonBall = new CannonBall(canhao.posX, canhao.posY);
  
 }
 
@@ -44,7 +66,6 @@ function draw() {
   image(backgroundImg, 0, 0, 1200, 600);
   
   canhao.display();
-  cannonBall.display();
   
   Engine.update(engine);
  
@@ -55,11 +76,29 @@ function draw() {
   image(towerImg,tower.position.x, tower.position.y, 160, 310);
   pop();
    
+  for(var i = 0; i < cannonBalls.length; i ++) {
+    cannonShow(cannonBalls[i], i);
+  }
+
+
 }
 
 
 function keyReleased() {
   if(keyCode === DOWN_ARROW) {
-    cannonBall.shoot();
+    cannonBalls[cannonBalls.length - 1].shoot();
+  }
+}
+
+function keyPressed() {
+  if(keyCode === DOWN_ARROW) {
+    var cannonBall = new CannonBall(canhao.posX, canhao.posY);
+    cannonBalls.push(cannonBall);
+  }
+}
+
+function cannonShow(ball, i) {
+  if(ball) {
+    ball.display();
   }
 }

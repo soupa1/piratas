@@ -6,6 +6,7 @@ class CannonBall {
         }
         this.body = Bodies.circle(posX, posY, this.r, options);
         this.img = loadImage("./assets/cannonball.png");
+        this.rastro = [];
         World.add(world, this.body);
     }
 
@@ -16,6 +17,15 @@ class CannonBall {
         imageMode(CENTER);
         image(this.img, pos.x, pos.y, this.r, this.r);
         pop();
+
+        if(this.body.velocity.x >  0 && pos.x > 10) {
+            var posicao = [pos.x, pos.y];
+            this.rastro.push(posicao);
+        }
+
+        for(var i = 0; i < this.rastro.length; i ++) {
+            image(this.img, this.rastro[i][0], this.rastro[i][1], 5,5);
+        }
     }
 
     shoot(){
