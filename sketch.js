@@ -78,6 +78,7 @@ function draw() {
    
   for(var i = 0; i < cannonBalls.length; i ++) {
     cannonShow(cannonBalls[i], i);
+    colisao(i);
   }
 
   boatShow();
@@ -101,6 +102,9 @@ function keyPressed() {
 function cannonShow(ball, i) {
   if(ball) {
     ball.display();
+    if(ball.body.position.x >= width || ball.body.position.y >= height-50) { 
+      ball.removeBall(i);
+    }
   }
 }
 
@@ -123,5 +127,20 @@ function boatShow() {
   else {
     var boat = new Boat(width, height-60, 170, 170, -80);
     boats.push(boat);
+  }
+}
+
+function colisao(index) {
+  for (var i = 0; i < boats.length; i ++) { 
+    if(cannonBalls[index] !== undefined && boats[i] !== undefined){ 
+      var collisaoVer = Matter.SAT.collides(cannonBalls[index].body, boats[i].body);
+
+      if(collisaoVer.collided) {
+        boats[i].removeBoat(i);
+        Matter.World.remove(world, cannonBalls[index].body);
+        delete cannonBalls[index];
+
+      }
+    }
   }
 }
